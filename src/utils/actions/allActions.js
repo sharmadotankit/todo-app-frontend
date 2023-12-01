@@ -87,3 +87,21 @@ export const editTodo = async(token, data) => {
       }
     });
   };
+
+  export const fetchTodoForUser = async(token,id) =>{
+    return new Promise(async (resolve, reject) => {
+      try {
+        let header = {
+          Authorization: `Bearer ${JSON.parse(token)}`,
+          "Content-Type": "application/json",
+        };
+        let response = await axios.get(
+          `${backendUrl}/user/fetch-todo-user/${id}`,
+          { headers: header }
+        );
+        resolve(response.data);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }

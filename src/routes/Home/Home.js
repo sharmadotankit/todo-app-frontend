@@ -4,7 +4,7 @@ import { ApplicationContext } from "../../context/context";
 import { Button, FormControl } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TodoItem from "../../component/TodoItem/TodoItem";
-import { addTodo,editTodo,deleteTodo,completeTodo } from "../../utils/actions/allActions";
+import { addTodo,editTodo,deleteTodo,completeTodo,fetchTodoForUser } from "../../utils/actions/allActions";
 
 export default function Home() {
   useDocumentTitle("Home");
@@ -14,41 +14,75 @@ export default function Home() {
   const [todo, setTodo] = useState("");
 
   useEffect(()=>{
-    // const response =  await fetchTodoForUser
+
+    const fetchData = async()=>{
+      try{
+        const response =  await fetchTodoForUser(token,currentUser._id);
+        if(response.status){
+          setTodos(response.data)
+        }
+      }catch(err){
+        toast.error("Something went wrong")
+      }
+      
+    }
+    fetchData();
   },[])
   const handleValueChange = (e) => {
     setTodo(e.target.value);
   };
 
   const handleAddTodo = async() => {
-    const newTodo = {text:todo, completed: false,userId:currentUser._id };
-    const response  = await addTodo(token,newTodo);
-    if(response.status){
-      toast.success("Todo added successfully")
-      setTodos([...todos, response.data]);
+    try{
+      const newTodo = {text:todo, completed: false,userId:currentUser._id };
+      const response  = await addTodo(token,newTodo);
+      if(response.status){
+        toast.success("Todo added successfully")
+        setTodos([...todos, response.data]);
+      }
+    }catch(err){
+      toast.error("Something went wrong")
     }
   };
 
   const handleEditTodo = async(id, newText) => {
-    const data = {
-      id,
-      newText,
+    try{
+      const data = {
+        id,
+        newText,
+      }
+      const response  = await editTodo(token,data);
+      if(response.status){
+        const updatedTodos = todos.map((todo) =>
+          todo._id === id ? { ...todo, text: newText } : todo
+        );
+        setTodos(updatedTodos);
+        toast.success("Todo edited successfully")
+      } 
+    }catch(err){
+      toast.error("Something went wrong")
     }
-    const response  = await editTodo(token,data);
-    if(response.status){
-      const updatedTodos = todos.map((todo) =>
-        todo._id === id ? { ...todo, text: newText } : todo
-      );
-      setTodos(updatedTodos);
-      toast.success("Todo edited successfully")
-    } 
+    
   };
 
-  const toggleComplete = (id) => {
-    const updatedTodos = todos.map((todo) =>
-      todo._id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-    setTodos(updatedTodos);
+  const toggleComplete = async(id) => {
+    try{
+      let data ={
+        id,
+      }
+      const response = await completeTodo(token,data);
+
+      if(response.status){
+        const updatedTodos = todos.map((todo) =>
+        todo._id === response.data._id ? { ...todo, completed: !todo.completed } : todo
+      );
+      setTodos(updatedTodos);
+      }
+      
+    }catch(err){
+      toast.error("Something went wrong")
+    }
+  
   };
 
   const handleDeleteTodo = async(id) => {
