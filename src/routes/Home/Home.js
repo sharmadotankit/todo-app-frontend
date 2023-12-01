@@ -14,7 +14,7 @@ export default function Home() {
   const [todo, setTodo] = useState("");
 
   useEffect(()=>{
-    const response =  await fetchTodoForUser
+    // const response =  await fetchTodoForUser
   },[])
   const handleValueChange = (e) => {
     setTodo(e.target.value);
