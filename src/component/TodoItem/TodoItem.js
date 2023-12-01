@@ -10,7 +10,7 @@ const TodoItem = ({ todo, onEdit, onComplete, onDelete }) => {
   };
 
   const handleSave = () => {
-    onEdit(todo.id, editedText);
+    onEdit(todo._id, editedText);
     setIsEditing(false);
   };
 
@@ -22,13 +22,16 @@ const TodoItem = ({ todo, onEdit, onComplete, onDelete }) => {
   return (
     <div className="todo-item">
       {isEditing ? (
-        <div>
-          <input
-            type="text"
-            value={editedText}
-            onChange={(e) => setEditedText(e.target.value)}
-            className="form-control"
-          />
+        <div  style={{display:'flex'}}>
+          <div className="text-container">
+            <input
+              type="text"
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+              className="form-control"
+            />
+          </div>
+          
           <button onClick={handleSave} className="btn btn-success edit-btn">
             Save
           </button>
@@ -47,13 +50,13 @@ const TodoItem = ({ todo, onEdit, onComplete, onDelete }) => {
       <div>
         {!isEditing && (
           <>
-            <button onClick={() => onComplete(todo.id)} className="btn btn-primary complete-btn">
+            <button onClick={() => onComplete(todo._id)} className="btn btn-primary complete-btn">
               {todo.completed ? 'Undo' : 'Complete'}
             </button>
             <button onClick={handleEdit} className="btn btn-warning edit-btn">
               Edit
             </button>
-            <button onClick={() => onDelete(todo.id)} className="btn btn-danger delete-btn">
+            <button onClick={() => onDelete(todo._id)} className="btn btn-danger delete-btn">
               Delete
             </button>
           </>

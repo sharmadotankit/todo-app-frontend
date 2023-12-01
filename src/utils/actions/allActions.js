@@ -24,7 +24,7 @@ export const addTodo = async(token, data) => {
         data,
         { headers: header }
       );
-      resolve(response);
+      resolve(response.data);
     } catch (err) {
       reject(err);
     }
@@ -43,7 +43,7 @@ export const editTodo = async(token, data) => {
           data,
           { headers: header }
         );
-        resolve(response);
+        resolve(response.data);
       } catch (err) {
         reject(err);
       }
@@ -58,11 +58,10 @@ export const editTodo = async(token, data) => {
           "Content-Type": "application/json",
         };
         let response = await axios.delete(
-          `${backendUrl}/user/delete-todo`,
-          data,
+          `${backendUrl}/user/delete-todo/${data}`,
           { headers: header }
         );
-        resolve(response);
+        resolve(response.data);
       } catch (err) {
         reject(err);
       }
@@ -82,7 +81,7 @@ export const editTodo = async(token, data) => {
           data,
           { headers: header }
         );
-        resolve(response);
+        resolve(response.data);
       } catch (err) {
         reject(err);
       }

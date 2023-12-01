@@ -41,7 +41,7 @@ function Signup() {
                 name:response?.data?.name,
                 email:response?.data?.email,
                 token:response?.data?.token,
-                id:response?.data?._id,
+                _id:response?.data?._id,
                 isLoggedIn:true,
             });
 

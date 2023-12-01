@@ -18,7 +18,7 @@ function App() {
   const token = localStorage.getItem("token");
   const name = localStorage.getItem("name");
   const email = localStorage.getItem("email");
-  const id = localStorage.getItem("_id"); 
+  const _id = localStorage.getItem("_id"); 
   const [isServerConnected, setIsServerConnected] = useState(false);
 
   const handleLogout = () => {
@@ -26,7 +26,7 @@ function App() {
       name: null,
       email: null,
       token: null,
-      id: null,
+      _id: null,
       isLoggedIn: false,
     });
   }
@@ -68,7 +68,7 @@ function App() {
         name: name,
         email: email,
         token: token,
-        id: id,
+        _id: _id,
         isLoggedIn: true,
       });
     } catch (err) {

@@ -11,7 +11,7 @@ function Navbar() {
             name:null,
             email:null,
             token:null,
-            id:null,
+            _id:null,
             isLoggedIn:false,
         })
         localStorage.setItem("name","");
