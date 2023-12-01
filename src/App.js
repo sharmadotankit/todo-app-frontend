@@ -1,24 +1,107 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Home from "./routes/Home/Home";
+import {  useContext, useEffect, useState } from "react";
+import { ApplicationContext } from "./context/context";
+import Navbar from "./routes/Navbar/Navbar";
+import Signup from "./routes/Auth/Signup";
+import Login from "./routes/Auth/Login";
+import ServerConnectingComponent from "./component/ServerConnectingComponent";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { connectToServer } from "./utils/actions/allActions";
+import {jwtDecode} from "jwt-decode";
 
 function App() {
+  const {setCurrentUser} = useContext(ApplicationContext);
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
+  const id = localStorage.getItem("_id"); 
+  const [isServerConnected, setIsServerConnected] = useState(false);
+
+  const handleLogout = () => {
+    setCurrentUser({
+      name: null,
+      email: null,
+      token: null,
+      id: null,
+      isLoggedIn: false,
+    });
+  }
+
+
+  useEffect(() => {
+    try {
+      const connectFunction = async () => {
+        const connectionResponse = await connectToServer();
+        console.log("dffsad",connectionResponse )
+        if (connectionResponse.status===200) {
+          setIsServerConnected(true);
+        }
+      };
+
+      connectFunction();
+
+      if (!token) {
+        handleLogout();
+        return;
+      } else {
+        let decode = jwtDecode(token);
+        if (decode.exp * 1000 < Date.now()) {
+          handleLogout();
+          return;
+        }
+        if (decode.exp * 1000 - Date.now() < 1800) {
+          handleLogout();
+          return;
+        }
+      }
+
+      if (isLoggedIn != "true") {
+        handleLogout();
+        return;
+      }
+
+      setCurrentUser({
+        name: name,
+        email: email,
+        token: token,
+        id: id,
+        isLoggedIn: true,
+      });
+    } catch (err) {
+      console.log("error", err);
+    }
+  }, []);
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    {isServerConnected ? (
+      <>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Navbar />}>
+        {!isLoggedIn ||
+                (!token && <Route path="/" element={<Login />}></Route>)}
+          <Route index element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />}></Route>
+        </Route>
+      </Routes>
+      </> ) : (
+        <>
+          <Routes>
+            <Route path="*" element={<ServerConnectingComponent />}></Route>
+          </Routes>
+        </>
+      )}
+    </BrowserRouter>
   );
 }
 

@@ -1,0 +1,73 @@
+.signUpDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+        flex: 1;
+        .container-signup {
+            display: flex;
+            font-size: 15px;
+            width: 30%;
+            align-items: flex-start;
+            flex-direction: column;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 150px;
+            margin-bottom: auto;
+            background-color: black;
+            padding: 0px 30px 30px 30px;
+            border: 2px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: white;
+            min-width: 400px;
+            box-sizing: border-box;
+
+
+            input[type=text],
+            input[type=password],
+            input[type=email]{
+                width: 100%;
+                padding: 10px;
+                margin: 6px 0 15px 0;
+                display: inline-block;
+                border: rgb(222, 207, 207);
+                background-color: rgba(61, 61, 61, 0.3);
+            }
+        
+            input[type=text]:focus,
+            input[type=password]:focus {
+                background-color: none;
+                outline: none;
+            }
+
+
+
+            .button-link {
+                color: #F4D160;
+            }
+        
+
+            .registerbtn {
+                background-color: #F4D160;
+                color: #000;
+                padding: 16px 20px;
+                margin: 8px 0;
+                cursor: pointer;
+                width: 100%;
+                border-radius: 5px;
+            }
+        
+            .registerbtn:hover {
+                opacity: 0.9;
+            }
+        
+
+            .signup-heading {
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 10px;
+            }
+        
+    }
+
+}
