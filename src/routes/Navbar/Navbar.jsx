@@ -1,10 +1,12 @@
 import React,{useContext} from 'react'
-import { Link,Outlet } from "react-router-dom";
+import { Link,Outlet, useNavigate } from "react-router-dom";
 import './Navbar.scss';
 import {ApplicationContext} from "../../context/context";
 
 function Navbar() {
     const {currentUser,setCurrentUser} = useContext(ApplicationContext);
+    
+  const navigate = useNavigate();
 
     const handleLogout = () =>{
         setCurrentUser({
@@ -19,6 +21,7 @@ function Navbar() {
         localStorage.setItem("_id", "");
         localStorage.setItem("token", "");
         localStorage.setItem("isLoggedIn", false);
+        navigate('/login')
     }
 
 

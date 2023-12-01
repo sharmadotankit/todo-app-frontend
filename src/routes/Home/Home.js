@@ -5,6 +5,7 @@ import { Button, FormControl } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TodoItem from "../../component/TodoItem/TodoItem";
 import { addTodo,editTodo,deleteTodo,completeTodo,fetchTodoForUser } from "../../utils/actions/allActions";
+import {useNavigate} from "react-router-dom";
 
 export default function Home() {
   useDocumentTitle("Home");
@@ -12,15 +13,21 @@ export default function Home() {
   const token = localStorage.getItem("token");
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const [todo, setTodo] = useState("");
+  const navigate = useNavigate();
 
   useEffect(()=>{
 
     const fetchData = async()=>{
       try{
-        const response =  await fetchTodoForUser(token,currentUser._id);
-        if(response.status){
-          setTodos(response.data)
+        if(!currentUser._id){
+          navigate('/login')
+        }else{
+          const response =  await fetchTodoForUser(token,currentUser._id);
+          if(response.status){
+            setTodos(response.data)
+          }
         }
+        
       }catch(err){
         toast.error("Something went wrong")
       }

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, useNavigate } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import {  useContext, useEffect, useState } from "react";
 import { ApplicationContext } from "./context/context";
@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import { connectToServer } from "./utils/actions/allActions";
 import {jwtDecode} from "jwt-decode";
 
+
 function App() {
   const {setCurrentUser} = useContext(ApplicationContext);
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -19,6 +20,7 @@ function App() {
   const name = localStorage.getItem("name");
   const email = localStorage.getItem("email");
   const _id = localStorage.getItem("_id"); 
+  const navigate = useNavigate();
   const [isServerConnected, setIsServerConnected] = useState(false);
 
   const handleLogout = () => {
@@ -29,6 +31,12 @@ function App() {
       _id: null,
       isLoggedIn: false,
     });
+    localStorage.setItem("name","");
+    localStorage.setItem("email", "");
+    localStorage.setItem("_id", "");
+    localStorage.setItem("token", "");
+    localStorage.setItem("isLoggedIn", false);
+    navigate('/login')
   }
 
 
