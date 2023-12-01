@@ -32,12 +32,14 @@
                 display: inline-block;
                 border: rgb(222, 207, 207);
                 background-color: rgba(61, 61, 61, 0.3);
+                color: white;
             }
         
             input[type=text]:focus,
             input[type=password]:focus {
                 background-color: none;
                 outline: none;
+                color: white;
             }
 
 
