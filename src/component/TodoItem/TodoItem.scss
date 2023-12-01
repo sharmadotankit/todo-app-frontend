@@ -1,0 +1,33 @@
+
+.todo-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  
+    .text-container {
+      flex-grow: 1;
+      margin-right: 10px;
+      text-align: left;
+      max-width: 300px;
+    }
+  
+    .complete-btn,
+    .edit-btn,
+    .delete-btn {
+      margin-left: 5px;
+    }
+  
+    .completed {
+      text-decoration: line-through;
+      color: #777;
+    }
+  }
+  
