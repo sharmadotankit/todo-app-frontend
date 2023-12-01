@@ -88,7 +88,7 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <>
     {isServerConnected ? (
       <>
       <ToastContainer />
@@ -109,7 +109,7 @@ function App() {
           </Routes>
         </>
       )}
-    </BrowserRouter>
+      </>
   );
 }
 
