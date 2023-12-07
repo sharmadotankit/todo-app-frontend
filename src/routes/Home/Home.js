@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import useDocumentTitle from "../../utils/helper/useDocumentTitle";
 import { ApplicationContext } from "../../context/context";
 import { Button, FormControl } from "react-bootstrap";
@@ -13,6 +13,7 @@ export default function Home() {
   const token = localStorage.getItem("token");
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const [todo, setTodo] = useState("");
+  const [showCompleted, setShowCompleted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -35,6 +36,16 @@ export default function Home() {
     }
     fetchData();
   },[])
+
+  const filteredTodos = useMemo(() => {
+    if (showCompleted) {
+      return todos.filter((todo) => todo.completed);
+    } else {
+      return todos.filter((todo) => !todo.completed);
+    }
+  }, [todos, showCompleted]);
+
+
   const handleValueChange = (e) => {
     setTodo(e.target.value);
   };
@@ -128,9 +139,15 @@ export default function Home() {
                 </>
             </div>
             <div>
+            <label>
+              Show Completed
+              <input type="checkbox" checked={showCompleted} onChange={() => setShowCompleted(!showCompleted)} />
+            </label>
+            </div>
+            <div>
               <div className="card">
                   <h2>Todo List</h2>
-                  {todos?.map((todo,i) => (
+                  {filteredTodos?.map((todo,i) => (
                     <TodoItem
                       key={i}
                       todo={todo}

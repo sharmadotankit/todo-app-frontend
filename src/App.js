@@ -44,7 +44,6 @@ function App() {
     try {
       const connectFunction = async () => {
         const connectionResponse = await connectToServer();
-        console.log("dffsad",connectionResponse )
         if (connectionResponse.status===200) {
           setIsServerConnected(true);
         }
@@ -94,8 +93,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Navbar />}>
-        {!isLoggedIn ||
-                (!token && <Route path="/" element={<Login />}></Route>)}
+        {!isLoggedIn || (!token && <Route path="/" element={<Login />}></Route>)}
           <Route index element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
